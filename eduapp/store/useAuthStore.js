@@ -4,17 +4,20 @@ const useAuthStore = create((set) => ({
   token: "",
   userRole: "",
   isLoggedIn: false,
-  setUserInfo: (token, role) =>
+  userInfo: {},
+  setUserInfo: (token, role, user) =>
     set({
       token,
       userRole: role,
       isLoggedIn: true,
+      userInfo: user,
     }),
   logout: () =>
     set({
       token: "",
       userRole: "",
       isLoggedIn: false,
+      userInfo: {},
     }),
 }));
 

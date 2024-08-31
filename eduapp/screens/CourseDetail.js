@@ -7,8 +7,20 @@ export default function CourseDetail({ route }) {
   return (
     <View style={styles.container}>
       <Image source={{ uri: course.image }} style={styles.courseImage} />
-      <Text style={styles.courseTitle}>{course.title}</Text>
-      <Text style={styles.courseDescription}>Mô tả về khóa học...</Text>
+      <View>
+        <Text style={styles.courseTitle}>{course.title}</Text>
+        <Text style={{ marginTop: 5 }}>
+          by{" "}
+          <Text style={{ fontWeight: 800, color: "#14b8a6" }}>
+            Kien Duong Trung
+          </Text>
+        </Text>
+      </View>
+
+      <View style={{ marginTop: 24 }}>
+        <Text style={styles.aboutCourse}>About Course</Text>
+        <Text style={{ lineHeight: 20 }}>{course?.description}</Text>
+      </View>
     </View>
   );
 }
@@ -28,8 +40,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 20,
   },
-  courseDescription: {
-    fontSize: 16,
-    marginTop: 10,
+  aboutCourse: {
+    fontWeight: 700,
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 5,
   },
 });

@@ -26,13 +26,14 @@ export default function LoginScreen({ navigation }) {
           password,
         }
       );
-      const { token } = response.data; // Sửa 'res' thành 'response'
+      const { token, user } = response.data; 
+      console.log("🚀 ~ handleLogin ~ user:", user)
       console.log("🚀 ~ handleLogin ~ token:", token);
 
       const decodedToken = JSON.parse(atob(token.split(".")[1]));
       const userRole = decodedToken.user.role;
 
-      setUserInfo(token, userRole);
+      setUserInfo(token, userRole, user);
 
       Toast.show({
         type: "success",

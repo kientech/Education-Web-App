@@ -13,6 +13,12 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from "react-native-popup-menu";
 import useAuthStore from "../store/useAuthStore";
 import axios from "axios";
 
@@ -36,9 +42,10 @@ export default function Home({ navigation }) {
     fetchCourses();
   }, []);
 
-  const { userRole, isLoggedIn, logout } = useAuthStore((state) => ({
+  const { userRole, isLoggedIn, userInfo, logout } = useAuthStore((state) => ({
     userRole: state.userRole,
     isLoggedIn: state.isLoggedIn,
+    userInfo: state.userInfo,
     logout: state.logout,
   }));
 
@@ -101,13 +108,25 @@ export default function Home({ navigation }) {
       <View style={styles.header}>
         <View>
           <Text>Hello</Text>
-          <Text style={styles.userName}>Kien Duong</Text>
+          <Text style={styles.userName}>{userInfo.fullname}</Text>
         </View>
         <View>
-          <Image
-            source={require("../assets/images/signup-img.png")}
-            style={styles.profileImage}
-          />
+          <Menu>
+            <MenuTrigger>
+              <Image
+              source={userInfo.image ? { uri: userInfo.image } : require("../assets/images/signup-img.png")}
+                style={styles.profileImage}
+              />
+            </MenuTrigger>
+            <MenuOptions optionsContainerStyle={styles.menuOptions}>
+              <MenuOption onSelect={() => console.log("Profile")}>
+                <Text style={styles.optionText}>Profile</Text>
+              </MenuOption>
+              <MenuOption onSelect={handleLogout}>
+                <Text style={styles.optionText}>Logout</Text>
+              </MenuOption>
+            </MenuOptions>
+          </Menu>
         </View>
       </View>
       <ScrollView>
@@ -204,5 +223,25 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: "bold",
     marginTop: 20,
+  },
+  profileImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+  },
+  optionText: {
+    fontSize: 18,
+    padding: 10,
+  },
+  menuOptions: {
+    marginTop: 10, // Adjust this value to position the menu below the avatar
+    padding: 10,
+    backgroundColor: "white",
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5, // For Android shadow effect
   },
 });

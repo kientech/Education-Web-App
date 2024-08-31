@@ -6,31 +6,34 @@ import RegisterScreen from "./screens/RegisterScreen";
 import Toast from "react-native-toast-message";
 import HomeScreen from "./screens/HomeScreen";
 import CourseDetail from "./screens/CourseDetail";
+import { MenuProvider } from "react-native-popup-menu";
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen
-          name="Login"
-          component={LoginScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Register"
-          component={RegisterScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="CourseDetail" component={CourseDetail} />
-      </Stack.Navigator>
-      <Toast />
+      <MenuProvider>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Register"
+            component={RegisterScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen name="CourseDetail" component={CourseDetail} />
+        </Stack.Navigator>
+        <Toast />
+      </MenuProvider>
     </NavigationContainer>
   );
 }
