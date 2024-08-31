@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
+import Swiper from "react-native-swiper";
 
 import {
   SafeAreaView,
   View,
   Text,
-  Button,
   Image,
   StyleSheet,
   TextInput,
@@ -22,10 +22,19 @@ import {
 import useAuthStore from "../store/useAuthStore";
 import axios from "axios";
 
+const { width: viewportWidth } = Dimensions.get("window");
+
 export default function Home({ navigation }) {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const banners = [
+    { id: "1", image: require("../assets/images/login-img.jpg") },
+    { id: "2", image: require("../assets/images/signup-img.png") },
+    { id: "2", image: require("../assets/images/banner_1.png") },
+    { id: "2", image: require("../assets/images/banner_2.png") },
+  ];
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -54,6 +63,12 @@ export default function Home({ navigation }) {
     navigation.navigate("Login");
   };
 
+  const renderItem = ({ item }) => (
+    <View style={styles.banner}>
+      <Image source={item.image} style={styles.bannerImage} />
+    </View>
+  );
+
   const renderVideoCourse = ({ item }) => (
     <View>
       <TouchableOpacity
@@ -61,7 +76,7 @@ export default function Home({ navigation }) {
       >
         <Image
           source={{ uri: item.image }}
-          style={{ width: 200, height: 150, borderRadius: 16, marginRight: 10 }}
+          style={styles.courseImage}
           resizeMode="cover"
         />
       </TouchableOpacity>
@@ -75,36 +90,24 @@ export default function Home({ navigation }) {
       >
         <Image
           source={{ uri: item.image }}
-          style={{ width: 200, height: 150, borderRadius: 16, marginRight: 10 }}
+          style={styles.courseImage}
           resizeMode="cover"
         />
-        <Text
-          style={{
-            fontWeight: 600,
-            marginTop: 8,
-            fontSize: 18,
-            paddingLeft: 8,
-          }}
-        >
-          {item.title}
-        </Text>
-        <Text style={{ marginTop: 8, paddingLeft: 8 }}>15 Lessons</Text>
+        <Text style={styles.courseTitle}>{item.title}</Text>
+        <Text style={styles.courseSubtitle}>15 Lessons</Text>
       </TouchableOpacity>
     </View>
   );
 
-  // filter basic courses
   const basicPopularCourses = courses.filter(
     (course) => course.difficulty === 0
   );
-
   const advancedPopularCourses = courses.filter(
     (course) => course.difficulty === 1
   );
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header Status */}
       <View style={styles.header}>
         <View>
           <Text>Hello</Text>
@@ -114,7 +117,11 @@ export default function Home({ navigation }) {
           <Menu>
             <MenuTrigger>
               <Image
-              source={userInfo.image ? { uri: userInfo.image } : require("../assets/images/signup-img.png")}
+                source={
+                  userInfo.image
+                    ? { uri: userInfo.image }
+                    : require("../assets/images/signup-img.png")
+                }
                 style={styles.profileImage}
               />
             </MenuTrigger>
@@ -134,14 +141,24 @@ export default function Home({ navigation }) {
           <TextInput placeholder="Search" />
         </View>
 
-        <View style={styles.banner}>
-          <Image
-            source={require("../assets/images/signup-img.png")}
-            style={{ width: "100%", height: 200, borderRadius: 16 }}
-          />
+        <View style={{ height: 200 }}>
+          <Swiper
+            showsButtons={false}
+            autoplay={true}
+            autoplayTimeout={3}
+            loop={true}
+            dotStyle={styles.dotStyle}
+            activeDotStyle={styles.activeDotStyle}
+            paginationStyle={styles.paginationStyle}
+          >
+            {banners.map((banner) => (
+              <View key={banner.id} style={styles.slide}>
+                <Image source={banner.image} style={styles.bannerImage} />
+              </View>
+            ))}
+          </Swiper>
         </View>
 
-        {/* Video course */}
         <View>
           <Text style={styles.titleText}>Video Course</Text>
           <View style={{ marginTop: 16 }}>
@@ -155,7 +172,6 @@ export default function Home({ navigation }) {
           </View>
         </View>
 
-        {/* Basic Popular Course */}
         <View style={{ marginTop: 16 }}>
           <Text style={styles.titleText}>Basic Popular Course</Text>
           <View style={{ marginTop: 16 }}>
@@ -169,7 +185,6 @@ export default function Home({ navigation }) {
           </View>
         </View>
 
-        {/* Advanced Popular Course */}
         <View style={{ marginTop: 16 }}>
           <Text style={styles.titleText}>Advanced Popular Course</Text>
           <View style={{ marginTop: 16 }}>
@@ -190,6 +205,7 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 20,
+    flex: 1,
   },
   header: {
     display: "flex",
@@ -205,7 +221,6 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    resizeMode: "cover",
   },
   input: {
     marginVertical: 20,
@@ -215,26 +230,33 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
   },
-  banner: {
-    width: "100%",
-    height: 200,
-  },
   titleText: {
     fontSize: 22,
     fontWeight: "bold",
     marginTop: 20,
   },
-  profileImage: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+  courseImage: {
+    width: 200,
+    height: 150,
+    borderRadius: 16,
+    marginRight: 10,
+  },
+  courseTitle: {
+    fontWeight: "600",
+    marginTop: 8,
+    fontSize: 18,
+    paddingLeft: 8,
+  },
+  courseSubtitle: {
+    marginTop: 8,
+    paddingLeft: 8,
   },
   optionText: {
     fontSize: 18,
     padding: 10,
   },
   menuOptions: {
-    marginTop: 10, // Adjust this value to position the menu below the avatar
+    marginTop: 10,
     padding: 10,
     backgroundColor: "white",
     borderRadius: 8,
@@ -242,6 +264,25 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
-    elevation: 5, // For Android shadow effect
+    elevation: 5,
+  },
+  slide: {
+    width: "100%",
+    height: 200,
+  },
+  bannerImage: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 16,
+  },
+  dotStyle: {
+    backgroundColor: "transparent",
+  },
+  activeDotStyle: {
+    backgroundColor: "transparent",
+  },
+  paginationStyle: {
+    height: 0,
+    marginBottom: 0,
   },
 });
