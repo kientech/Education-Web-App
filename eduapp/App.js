@@ -7,6 +7,7 @@ import Toast from "react-native-toast-message";
 import HomeScreen from "./screens/HomeScreen";
 import CourseDetail from "./screens/CourseDetail";
 import { MenuProvider } from "react-native-popup-menu";
+import ProfileScreen from "./screens/ProfileScreen";
 
 const Stack = createStackNavigator();
 
@@ -28,6 +29,11 @@ export default function App() {
           <Stack.Screen
             name="Home"
             component={HomeScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Profile"
+            component={ProfileScreen}
             options={{ headerShown: false }}
           />
           <Stack.Screen name="CourseDetail" component={CourseDetail} />

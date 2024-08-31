@@ -21,6 +21,7 @@ import {
 } from "react-native-popup-menu";
 import useAuthStore from "../store/useAuthStore";
 import axios from "axios";
+import Toast from "react-native-toast-message";
 
 const { width: viewportWidth } = Dimensions.get("window");
 
@@ -60,6 +61,10 @@ export default function Home({ navigation }) {
 
   const handleLogout = () => {
     logout();
+    Toast.show({
+      type: "success",
+      text1: "Logout Successful",
+    });
     navigation.navigate("Login");
   };
 
@@ -126,7 +131,7 @@ export default function Home({ navigation }) {
               />
             </MenuTrigger>
             <MenuOptions optionsContainerStyle={styles.menuOptions}>
-              <MenuOption onSelect={() => console.log("Profile")}>
+              <MenuOption onSelect={() => navigation.navigate("Profile")}>
                 <Text style={styles.optionText}>Profile</Text>
               </MenuOption>
               <MenuOption onSelect={handleLogout}>
