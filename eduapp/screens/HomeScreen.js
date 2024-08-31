@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   SafeAreaView,
@@ -14,28 +14,28 @@ import {
   TouchableOpacity,
 } from "react-native";
 import useAuthStore from "../store/useAuthStore";
+import axios from "axios";
 
 export default function Home({ navigation }) {
-  const data = [
-    {
-      id: 1,
-      image:
-        "https://cdn.dribbble.com/userupload/16318493/file/original-37b9b819f19c70bd7a365de95ed0a394.jpg?resize=2048x1536",
-      title: "Basic Python",
-    },
-    {
-      id: 2,
-      image:
-        "https://cdn.dribbble.com/userupload/15495958/file/original-4388ab69abcbea52e76f6e20c1eca82a.png?resize=2048x1536&vertical=center",
-      title: "Basic ReactJs",
-    },
-    {
-      id: 3,
-      image:
-        "https://cdn.dribbble.com/userupload/15495958/file/original-4388ab69abcbea52e76f6e20c1eca82a.png?resize=2048x1536&vertical=center",
-      title: "Basic React Native",
-    },
-  ];
+  const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        const response = await axios.get("http://127.0.0.1:5000/api/courses");
+        setCourses(response.data.data);
+      } catch (err) {
+        setError("Failed to fetch courses.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCourses();
+  }, []);
+
   const { userRole, isLoggedIn, logout } = useAuthStore((state) => ({
     userRole: state.userRole,
     isLoggedIn: state.isLoggedIn,
@@ -86,6 +86,15 @@ export default function Home({ navigation }) {
     </View>
   );
 
+  // filter basic courses
+  const basicPopularCourses = courses.filter(
+    (course) => course.difficulty === 0
+  );
+
+  const advancedPopularCourses = courses.filter(
+    (course) => course.difficulty === 1
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       {/* Header Status */}
@@ -118,9 +127,9 @@ export default function Home({ navigation }) {
           <Text style={styles.titleText}>Video Course</Text>
           <View style={{ marginTop: 16 }}>
             <FlatList
-              data={data}
+              data={courses}
               renderItem={renderVideoCourse}
-              keyExtractor={(item) => item.id.toString()}
+              keyExtractor={(item) => item._id.toString()}
               horizontal
               showsHorizontalScrollIndicator={false}
             />
@@ -132,9 +141,23 @@ export default function Home({ navigation }) {
           <Text style={styles.titleText}>Basic Popular Course</Text>
           <View style={{ marginTop: 16 }}>
             <FlatList
-              data={data}
+              data={basicPopularCourses}
               renderItem={renderBasicPopularCourse}
-              keyExtractor={(item) => item.id.toString()}
+              keyExtractor={(item) => item._id.toString()}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+        </View>
+
+        {/* Advanced Popular Course */}
+        <View style={{ marginTop: 16 }}>
+          <Text style={styles.titleText}>Advanced Popular Course</Text>
+          <View style={{ marginTop: 16 }}>
+            <FlatList
+              data={advancedPopularCourses}
+              renderItem={renderBasicPopularCourse}
+              keyExtractor={(item) => item._id.toString()}
               horizontal
               showsHorizontalScrollIndicator={false}
             />

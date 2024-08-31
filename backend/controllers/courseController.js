@@ -4,9 +4,13 @@ const Course = require("../models/courseModel");
 exports.getAllCourses = async (req, res) => {
   try {
     const courses = await Course.find();
-    res.status(200).json(courses);
+    return res.status(200).json({
+      status: "success",
+      length: courses.length,
+      data: courses,
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 
@@ -15,24 +19,54 @@ exports.getCourseById = async (req, res) => {
   try {
     const course = await Course.findById(req.params.id);
     if (course) {
-      res.status(200).json(course);
+      return res.status(200).json({
+        status: "success",
+        data: course,
+      });
     } else {
-      res.status(404).json({ message: "Course not found" });
+      return res.status(404).json({ message: "Course not found" });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
+// Get all courses by difficulty level
+exports.getCoursesFilter = async (req, res) => {
+  try {
+    const difficulty = parseInt(req.query.difficulty);
+    if (isNaN(difficulty)) {
+      return res.status(400).json({ error: "Invalid difficulty level" });
+    }
+    const courses = await Course.find({ difficulty });
+    return res.status(200).json({
+      status: "success",
+      length: courses.length,
+      data: courses,
+    });
+  } catch (err) {
+    res.status(500).json({ error: "An error occurred" });
+  }
+};
+
 // Create a new course
 exports.createCourse = async (req, res) => {
-  const { title, image, description, lessons } = req.body;
+  const { title, image, description, lessons, difficulty } = req.body;
   try {
-    const newCourse = new Course({ title, image, description, lessons });
+    const newCourse = new Course({
+      title,
+      image,
+      description,
+      lessons,
+      difficulty,
+    });
     await newCourse.save();
-    res.status(201).json(newCourse);
+    return res.status(201).json({
+      status: "success",
+      data: newCourse,
+    });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    return res.status(400).json({ message: error.message });
   }
 };
 
