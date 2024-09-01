@@ -7,15 +7,22 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import useAuthStore from "../store/useAuthStore"; // Đảm bảo đường dẫn đến store của Zustand đúng
-import Toast from "react-native-toast-message"; // Thêm thư viện này để sử dụng toast
+import useAuthStore from "../store/useAuthStore";
+import Toast from "react-native-toast-message";
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const userInfo = useAuthStore((state) => state.userInfo);
   const setUserInfo = useAuthStore((state) => state.setUserInfo);
+
+  useEffect(() => {
+    if (userInfo.length === 0) {
+      navigation.replace("Home");
+    }
+  }, [userInfo]);
 
   const handleLogin = async () => {
     try {
@@ -26,8 +33,8 @@ export default function LoginScreen({ navigation }) {
           password,
         }
       );
-      const { token, user } = response.data; 
-      console.log("🚀 ~ handleLogin ~ user:", user)
+      const { token, user } = response.data;
+      console.log("🚀 ~ handleLogin ~ user:", user);
       console.log("🚀 ~ handleLogin ~ token:", token);
 
       const decodedToken = JSON.parse(atob(token.split(".")[1]));
@@ -40,7 +47,7 @@ export default function LoginScreen({ navigation }) {
         text1: "Login Successful",
       });
 
-      navigation.navigate("Home");
+      navigation.navigate("Main");
     } catch (error) {
       console.error("Login error:", error);
       Toast.show({
@@ -60,8 +67,8 @@ export default function LoginScreen({ navigation }) {
       <View style={styles.headerContainer}>
         <Text style={styles.title}>Welcome to KienTech</Text>
         <Text style={styles.subtitle}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt ullam
-          quisquam perspiciatis expedita corporis atque illum in porro,
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt
+          ullam quisquam perspiciatis expedita corporis atque illum in porro,
           consequuntur.
         </Text>
       </View>

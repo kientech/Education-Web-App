@@ -76,7 +76,16 @@ const ProfileScreen = ({ navigation }) => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Password</Text>
           <TextInput
-            value={password}
+            placeholder="New Password"
+            onChangeText={setPassword}
+            style={styles.input}
+          />
+        </View>
+
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Confirm Password</Text>
+          <TextInput
+            placeholder="Confirm Password"
             onChangeText={setPassword}
             style={styles.input}
           />
@@ -124,9 +133,9 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   image: {
-    width: 250,
-    height: 250,
-    borderRadius: 125,
+    width: 200,
+    height: 200,
+    borderRadius: 100,
   },
   inputContainer: {
     marginTop: 20,

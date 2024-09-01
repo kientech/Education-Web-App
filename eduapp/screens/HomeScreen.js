@@ -116,29 +116,39 @@ export default function Home({ navigation }) {
       <View style={styles.header}>
         <View>
           <Text>Hello</Text>
-          <Text style={styles.userName}>{userInfo.fullname}</Text>
+          {userInfo && userInfo.fullname ? (
+            <Text style={styles.userName}>{userInfo.fullname}</Text>
+          ) : (
+            <Text style={styles.userName}>Guy</Text>
+          )}
         </View>
         <View>
-          <Menu>
-            <MenuTrigger>
-              <Image
-                source={
-                  userInfo.image
-                    ? { uri: userInfo.image }
-                    : require("../assets/images/signup-img.png")
-                }
-                style={styles.profileImage}
-              />
-            </MenuTrigger>
-            <MenuOptions optionsContainerStyle={styles.menuOptions}>
-              <MenuOption onSelect={() => navigation.navigate("Profile")}>
-                <Text style={styles.optionText}>Profile</Text>
-              </MenuOption>
-              <MenuOption onSelect={handleLogout}>
-                <Text style={styles.optionText}>Logout</Text>
-              </MenuOption>
-            </MenuOptions>
-          </Menu>
+          {userInfo && userInfo.email ? (
+            <Menu>
+              <MenuTrigger>
+                <Image
+                  source={
+                    userInfo.image
+                      ? { uri: userInfo.image }
+                      : require("../assets/images/signup-img.png")
+                  }
+                  style={styles.profileImage}
+                />
+              </MenuTrigger>
+              <MenuOptions optionsContainerStyle={styles.menuOptions}>
+                <MenuOption onSelect={() => navigation.navigate("Profile")}>
+                  <Text style={styles.optionText}>Profile</Text>
+                </MenuOption>
+                <MenuOption onSelect={handleLogout}>
+                  <Text style={styles.optionText}>Logout</Text>
+                </MenuOption>
+              </MenuOptions>
+            </Menu>
+          ) : (
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <Text>Get Started</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
       <ScrollView>
