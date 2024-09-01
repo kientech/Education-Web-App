@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
@@ -10,6 +10,21 @@ export default function Login() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
   const setUserInfo = useAuthStore((state) => state.setUserInfo);
+  const token = localStorage.getItem("token");
+
+  // Check if user is already logged in
+  useEffect(() => {
+    if (token) {
+      // If token exists, navigate to the appropriate page
+      const decodedToken = JSON.parse(atob(token.split(".")[1]));
+      const userRole = decodedToken.user.role;
+      if (userRole === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+    }
+  }, [token, navigate]);
 
   const formik = useFormik({
     initialValues: {
@@ -26,31 +41,20 @@ export default function Login() {
     }),
     onSubmit: async (values) => {
       const { email, password } = values;
-
       try {
         const res = await axios.post("http://localhost:5000/api/auth/login", {
           email,
           password,
         });
-        console.log("🚀 ~ handleSubmit ~ res:", res);
-
         const { token } = res.data;
-        console.log("🚀 ~ handleSubmit ~ token:", token);
-        // Decode token to get user role
         const decodedToken = JSON.parse(atob(token.split(".")[1]));
-        console.log("🚀 ~ handleSubmit ~ decodedToken:", decodedToken);
         const userRole = decodedToken.user.role;
-        console.log("🚀 ~ handleSubmit ~ userRole:", userRole);
+        setUserInfo(token, userRole, decodedToken.user);
 
-        // Save token and role to Zustand store
-        setUserInfo(token, userRole);
-
-        // Save token to localStorage (optional, depending on your security needs)
         localStorage.setItem("token", token);
 
         toast.success("Login Successfully!");
 
-        // Navigate based on user role
         if (userRole === "admin") {
           navigate("/admin");
         } else {
@@ -64,7 +68,7 @@ export default function Login() {
     },
   });
 
-  const handlePaste = (e) => {  
+  const handlePaste = (e) => {
     e.preventDefault();
     toast.warn("Copy/Paste Disabled!");
   };
