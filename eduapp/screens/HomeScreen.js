@@ -286,7 +286,7 @@ export default function Home({ navigation }) {
           </View>
         </View>
 
-        <View style={{ marginTop: 16 }}>
+        <View style={{ marginTop: 16, marginBottom: 32 }}>
           <Text style={styles.titleText}>Advanced Popular Course</Text>
           <View style={{ marginTop: 16 }}>
             <FlatList
