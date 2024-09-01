@@ -7,9 +7,9 @@ function Home() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout(); 
-    localStorage.removeItem("token"); 
-    navigate("/login"); 
+    logout();
+    localStorage.removeItem("token");
+    navigate("/login");
   };
 
   if (!isLoggedIn) {
@@ -18,11 +18,7 @@ function Home() {
 
   return (
     <div>
-      {userRole === "admin" ? (
-        <h1>Hello, Admin</h1>
-      ) : (
-        <h1>Hello, User</h1>
-      )}
+      {userRole === "admin" ? <h1>Hello, Admin</h1> : <h1>Hello, User</h1>}
       <button onClick={handleLogout}>Logout</button>
     </div>
   );
