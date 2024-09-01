@@ -15,16 +15,20 @@ export default function Login() {
   // Check if user is already logged in
   useEffect(() => {
     if (token) {
-      // If token exists, navigate to the appropriate page
-      const decodedToken = JSON.parse(atob(token.split(".")[1]));
-      const userRole = decodedToken.user.role;
-      if (userRole === "admin") {
-        navigate("/admin");
-      } else {
-        navigate("/");
+      try {
+        const decodedToken = JSON.parse(atob(token.split(".")[1]));
+        const userRole = decodedToken.user.role;
+        setUserInfo(token, userRole, decodedToken.user);
+        if (userRole === "admin") {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
+      } catch (err) {
+        console.error("Token decoding error:", err);
       }
     }
-  }, [token, navigate]);
+  }, [token, navigate, setUserInfo]);
 
   const formik = useFormik({
     initialValues: {
@@ -39,17 +43,17 @@ export default function Login() {
         .min(6, "Password must be at least 6 characters")
         .required("Password is required"),
     }),
-    onSubmit: async (values) => {
+    onSubmit: async (values, { setSubmitting }) => {
       const { email, password } = values;
       try {
         const res = await axios.post("http://localhost:5000/api/auth/login", {
           email,
           password,
         });
-        const { token } = res.data;
+        const { token, user } = res.data;
         const decodedToken = JSON.parse(atob(token.split(".")[1]));
         const userRole = decodedToken.user.role;
-        setUserInfo(token, userRole, decodedToken.user);
+        setUserInfo(token, userRole, user);
 
         localStorage.setItem("token", token);
 
@@ -64,6 +68,8 @@ export default function Login() {
         setError("Invalid credentials or server error");
         toast.error("Invalid credentials or server error");
         console.error("Login error:", err);
+      } finally {
+        setSubmitting(false);
       }
     },
   });
@@ -94,7 +100,7 @@ export default function Login() {
             Hello Again
           </h2>
           <p className="text-center font-base my-2 md:text-lg text-sm">
-            Welcome back you've been missed!
+            Welcome back, you've been missed!
           </p>
           <form
             onSubmit={formik.handleSubmit}
@@ -147,9 +153,13 @@ export default function Login() {
             <button
               type="submit"
               className="my-4 py-4 w-full rounded-lg bg-[#ff726f] text-white shadow-md hover:bg-[#ff6764] transition-all"
+              disabled={formik.isSubmitting}
             >
-              Login
+              {formik.isSubmitting ? "Logging in..." : "Login"}
             </button>
+            {error && (
+              <p className="text-red-500 text-sm mt-2 text-center">{error}</p>
+            )}
           </form>
         </div>
       </div>
