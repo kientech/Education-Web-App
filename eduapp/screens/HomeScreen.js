@@ -75,7 +75,16 @@ export default function Home({ navigation }) {
   );
 
   const renderVideoCourse = ({ item }) => (
-    <View>
+    <View
+      style={{
+        width: 230,
+        backgroundColor: "#fff",
+        paddingVertical: 8,
+        paddingHorizontal: 8,
+        borderRadius: 8,
+        marginRight: 16,
+      }}
+    >
       <TouchableOpacity
         onPress={() => navigation.navigate("CourseDetail", { course: item })}
       >
@@ -89,7 +98,16 @@ export default function Home({ navigation }) {
   );
 
   const renderBasicPopularCourse = ({ item }) => (
-    <View>
+    <View
+      style={{
+        width: 230,
+        backgroundColor: "#fff",
+        paddingVertical: 8,
+        paddingHorizontal: 8,
+        borderRadius: 8,
+        marginRight: 16,
+      }}
+    >
       <TouchableOpacity
         onPress={() => navigation.navigate("CourseDetail", { course: item })}
       >
@@ -119,7 +137,7 @@ export default function Home({ navigation }) {
           {userInfo && userInfo.fullname ? (
             <Text style={styles.userName}>{userInfo.fullname}</Text>
           ) : (
-            <Text style={styles.userName}>Guy</Text>
+            <Text style={styles.userName}>KienTech's Member</Text>
           )}
         </View>
         <View>
@@ -145,8 +163,16 @@ export default function Home({ navigation }) {
               </MenuOptions>
             </Menu>
           ) : (
-            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-              <Text>Get Started</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  fontSize: 16,
+                  color: "#15803d",
+                }}
+              >
+                Get Started
+              </Text>
             </TouchableOpacity>
           )}
         </View>
@@ -187,6 +213,66 @@ export default function Home({ navigation }) {
           </View>
         </View>
 
+        {/* Continue learning */}
+        <View>
+          <Text style={[styles.titleText]}>Continue Learning</Text>
+          {courses.length > 0 &&
+            courses.map((item) => (
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  marginBottom: 10,
+                  marginTop: 10,
+                  backgroundColor: "#fff",
+                  paddingHorizontal: 10,
+                  paddingVertical: 5,
+                  borderRadius: 8,
+                }}
+              >
+                <View
+                  style={{
+                    display: "flex",
+                    paddingVertical: 8,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 10,
+                  }}
+                >
+                  <Image
+                    source={{ uri: item.image }}
+                    style={{ width: 50, height: 50, borderRadius: 8 }}
+                  />
+                  <View>
+                    <Text
+                      style={{
+                        fontWeight: "bold",
+                        marginBottom: 8,
+                      }}
+                    >
+                      {item.title}
+                    </Text>
+                    <Text>72% Complete</Text>
+                  </View>
+                </View>
+                <View
+                  style={{
+                    backgroundColor: "#bbf7d0",
+                    paddingHorizontal: 12,
+                    paddingVertical: 6,
+                    borderRadius: 8,
+                    width: 100,
+                  }}
+                >
+                  <Text style={{ fontSize: 13, color: "black" }}>
+                    {item.lessons} Lessons
+                  </Text>
+                </View>
+              </View>
+            ))}
+        </View>
         <View style={{ marginTop: 16 }}>
           <Text style={styles.titleText}>Basic Popular Course</Text>
           <View style={{ marginTop: 16 }}>
@@ -251,10 +337,12 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   courseImage: {
-    width: 200,
+    width: "100%",
     height: 150,
+    marginHorizontal: "auto",
     borderRadius: 16,
     marginRight: 10,
+    display: "block",
   },
   courseTitle: {
     fontWeight: "600",
