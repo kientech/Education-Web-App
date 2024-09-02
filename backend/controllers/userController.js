@@ -58,3 +58,43 @@ exports.login = async (req, res) => {
     return res.status(500).send("Server error");
   }
 };
+
+exports.updateUser = async (req, res) => {
+  const { userId } = req.params;
+  console.log("🚀 ~ exports.updateUser= ~ userId:", userId);
+  const { fullname, username, email } = req.body;
+
+  try {
+    let user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    // Update user fields
+    user.fullname = fullname || user.fullname;
+    user.username = username || user.username;
+    user.email = email || user.email;
+
+    await user.save();
+
+    const payload = { user: { id: user.id, role: user.role } };
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    return res.status(200).json({
+      status: "success",
+      token: token,
+      user: {
+        id: user.id,
+        fullname: user.fullname,
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (err) {
+    console.error("Error updating user:", err);
+    return res.status(500).send("Server error");
+  }
+};

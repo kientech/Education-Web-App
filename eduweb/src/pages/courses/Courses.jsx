@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { Link } from "react-router-dom";
+import CourseItem from "./CourseItem";
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
@@ -22,7 +23,37 @@ const Courses = () => {
 
     fetchCourses();
   }, []);
-  return <div className="w-[90%] mx-auto">Courses</div>;
+  return (
+    <div className="w-[90%] mx-auto">
+      <div className="">
+        <img
+          src="https://cdn.dribbble.com/userupload/13068900/file/original-e4d18af4fd7a641bcbac60de855e918b.jpg?resize=1504x2006"
+          alt=""
+          className="relative w-full h-[300px] object-cover rounded-lg"
+        />
+        <div className="absolute bottom-2/4 -translate-y-2/4 left-2/4 -translate-x-2/4 p-10">
+          <h1 className="font-bold text-center text-xl my-4">Courses</h1>
+          <div className="flex items-center">
+            <Link to={"/"}>Home</Link>
+            <div className="mx-2">{`>>`}</div>
+            <Link to={"/courses"} className="text-blue-900 font-semibold ">
+              Courses
+            </Link>
+          </div>
+        </div>
+      </div>
+      <div className="grid grid-cols-3 gap-5 my-32">
+        {courses &&
+          courses.map((item) => (
+            <CourseItem
+              key={item._id}
+              courseImage={item.image}
+              courseTitle={item.title}
+            />
+          ))}
+      </div>
+    </div>
+  );
 };
 
 export default Courses;

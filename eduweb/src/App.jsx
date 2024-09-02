@@ -12,6 +12,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import Header from "./components/Header";
 import AdminHeader from "./components/AdminHeader";
 import Courses from "./pages/courses/Courses";
+import EditProfile from "./pages/profile/EditProfile";
 
 function App() {
   const location = useLocation();
@@ -27,6 +28,7 @@ function App() {
         <Route path="/courses" element={<Courses />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/profile/:userId" element={<EditProfile />} />
         <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </>
