@@ -8,6 +8,8 @@ import { HiArrowPath } from "react-icons/hi2";
 import { HiOutlineShare } from "react-icons/hi2";
 import Loading from "../../components/Loading";
 import Modal from "../../components/Modal";
+import CourseTopics from "./CourseTopics";
+import CourseTabs from "./CourseTabs";
 
 const CourseDetail = () => {
   const { slug } = useParams();
@@ -94,6 +96,13 @@ const CourseDetail = () => {
           ) : (
             <div>Course not found</div>
           )}
+          <div className="mb-8">
+            <CourseTabs />
+          </div>
+          <div className="mt-8">
+            <h1 className="font-bold text-2xl">Topics of Courses</h1>
+            <CourseTopics />
+          </div>
         </div>
         <div className="w-[35%]">
           <div className="shadow-md p-10 rounded-lg">
