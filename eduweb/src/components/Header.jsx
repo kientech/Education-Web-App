@@ -5,6 +5,7 @@ import useAuthStore from "../store/useAuthStore";
 
 function Header() {
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const { userRole, isLoggedIn, userInfo, logout } = useAuthStore((state) => ({
     userRole: state.userRole,
@@ -12,14 +13,11 @@ function Header() {
     userInfo: state.userInfo,
     logout: state.logout,
   }));
-  console.log(
-    "🚀 ~ const{userRole,isLoggedIn,userInfo,   logout}=useAuthStore ~ userInfo:",
-    userInfo
-  );
 
   const handleLogout = () => {
     logout();
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     toast.success("Successfully Logged Out!");
     navigate("/login");
   };
@@ -56,9 +54,9 @@ function Header() {
         </NavLink>
       </div>
       <div>
-        {isLoggedIn ? (
+        {isLoggedIn || user ? (
           <div className="flex items-center gap-4">
-            <h1>Hello, {userInfo.fullname}</h1>
+            <h1>Hello, {userInfo.fullname || user.fullname}</h1>
             <button
               onClick={handleLogout}
               className="px-4 py-2 bg-red-500 text-white rounded-full hover:bg-red-400"
