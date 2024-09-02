@@ -27,7 +27,7 @@ const Courses = () => {
     <div className="w-[90%] mx-auto">
       <div className="">
         <img
-          src="https://cdn.dribbble.com/userupload/13068900/file/original-e4d18af4fd7a641bcbac60de855e918b.jpg?resize=1504x2006"
+          src="https://cdn.dribbble.com/userupload/10102014/file/original-c751b95cdcbc47a393e5a4f19427b5c0.jpg?resize=2048x2048"
           alt=""
           className="relative w-full h-[300px] object-cover rounded-lg"
         />

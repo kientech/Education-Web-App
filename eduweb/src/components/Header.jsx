@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import useAuthStore from "../store/useAuthStore";
 
 function Header() {
   const navigate = useNavigate();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const user = JSON.parse(localStorage.getItem("user"));
 
   const { userRole, isLoggedIn, userInfo, logout } = useAuthStore((state) => ({
@@ -55,16 +56,46 @@ function Header() {
       </div>
       <div>
         {isLoggedIn || user ? (
-          <div className="flex items-center gap-4">
-            <Link to={`/profile/${user._id}`}>
-              Hello, {userInfo.fullname || user.fullname}
-            </Link>
+          <div className="relative">
             <button
-              onClick={handleLogout}
-              className="px-4 py-2 bg-red-500 text-white rounded-full hover:bg-red-400"
+              onClick={() => setIsDropdownOpen((prev) => !prev)}
+              className="flex items-center gap-4"
             >
-              Logout
+              <img
+                src={userInfo.image || user.image}
+                alt="Avatar"
+                className="w-12 h-12 rounded-full"
+              />
+              <span>
+                Hello, <span className="font-semibold text-green-400">{userInfo.fullname || user.fullname}</span>
+              </span>
             </button>
+
+            {isDropdownOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-20">
+                <Link
+                  to={`/profile/${user._id}`}
+                  onClick={() => setIsDropdownOpen(false)}
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  Profile
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+
+            {isDropdownOpen && (
+              // Close the dropdown if clicked outside
+              <div
+                onClick={() => setIsDropdownOpen(false)}
+                className="fixed inset-0 z-10"
+              ></div>
+            )}
           </div>
         ) : (
           <NavLink
