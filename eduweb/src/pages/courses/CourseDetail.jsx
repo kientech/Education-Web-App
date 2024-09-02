@@ -12,7 +12,7 @@ import CourseTopics from "./CourseTopics";
 import CourseTabs from "./CourseTabs";
 
 const CourseDetail = () => {
-  const { slug } = useParams();
+  const { courseSlug } = useParams();
   const [course, setCourse] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -22,7 +22,7 @@ const CourseDetail = () => {
     const fetchCourse = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:5000/api/courses/${slug}`
+          `http://127.0.0.1:5000/api/courses/${courseSlug}`
         );
         setCourse(response.data.data);
       } catch (err) {
@@ -33,10 +33,10 @@ const CourseDetail = () => {
     };
 
     fetchCourse();
-  }, [slug]);
+  }, [courseSlug]);
 
   const shareOnSocialMedia = (platform) => {
-    const url = `http://127.0.0.1:5000/courses/${slug}`;
+    const url = `http://127.0.0.1:5000/courses/${courseSlug}`;
     const title = course ? course.title : "Check out this course!";
     const text = `I found this course interesting: ${title}`;
 
@@ -79,17 +79,17 @@ const CourseDetail = () => {
           {course ? (
             <div>
               <img
-                src={course.image}
-                alt={course.title}
+                src={course.courseImage}
+                alt={course.courseName}
                 className="w-full h-[500px] object-cover rounded-lg"
               />
-              <h1 className="text-3xl font-bold mt-4">{course.title}</h1>
-              <p className="mt-2">{course.description}</p>
+              <h1 className="text-3xl font-bold mt-4">{course.courseName}</h1>
+              <p className="mt-2">{course.courseDescription}</p>
 
               <Modal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                courseLink={`http://127.0.0.1:5000/courses/${slug}`}
+                courseLink={`http://127.0.0.1:5000/courses/${courseSlug}`}
                 shareOnSocialMedia={shareOnSocialMedia}
               />
             </div>

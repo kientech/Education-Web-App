@@ -17,8 +17,8 @@ const Tabs = ({ tabs }) => {
             onClick={() => handleTabClick(index)}
             className={`py-2 px-4 text-sm font-medium focus:outline-none transition-colors duration-300 ${
               activeTab === index
-                ? "border-b-2 border-blue-500 text-blue-500"
-                : "text-gray-500 hover:text-blue-500"
+                ? "border-b-2 border-green-500 text-green-500"
+                : "text-gray-500 hover:text-green-500"
             }`}
           >
             {tab.title}

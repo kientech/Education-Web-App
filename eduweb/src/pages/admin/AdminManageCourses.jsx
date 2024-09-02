@@ -1,66 +1,74 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import Loading from "../../components/Loading";
 
 const AdminManageCourses = () => {
   const [courses, setCourses] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch courses from the API
     const fetchCourses = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:5000/api/courses');
+        const response = await axios.get("http://127.0.0.1:5000/api/courses");
         setCourses(response.data.data);
       } catch (error) {
-        console.error('Error fetching courses:', error);
+        toast.error("Error fetching courses!");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchCourses();
   }, []);
 
-  const handleDelete = async (courseId) => {
+  const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://127.0.0.1:5000/api/courses/${courseId}`);
-      setCourses(courses.filter(course => course._id !== courseId));
-      alert('Course deleted successfully');
+      await axios.delete(`http://127.0.0.1:5000/api/courses/admin/${id}`);
+      setCourses(courses.filter((course) => course._id !== id));
+      toast.success("Course deleted successfully!");
     } catch (error) {
-      console.error('Error deleting course:', error);
-      alert('Error deleting course');
+      toast.error("Error deleting course!");
     }
   };
 
+  if (loading)
+    return (
+      <>
+        <Loading />
+      </>
+    );
+
   return (
-    <div className="w-full p-5">
-      <h1 className="text-2xl font-bold mb-4">Manage Courses</h1>
-      <Link to="/admin/dashboard/courses/create-course" className="mb-4 inline-block bg-blue-500 text-white py-2 px-4 rounded">
-        Create New Course
+    <div className="container mx-auto p-6">
+      <h2 className="text-2xl font-bold mb-6">Manage Courses</h2>
+      <Link
+        to="/admin/dashboard/courses/create-course"
+        className="bg-blue-500 text-white px-4 py-2 rounded mb-4 inline-block"
+      >
+        Add New Course
       </Link>
-      <table className="w-full border-collapse border border-gray-200">
+      <table className="min-w-full bg-white border border-gray-300 rounded-md shadow-sm">
         <thead>
-          <tr>
-            <th className="border border-gray-300 p-2">Title</th>
-            <th className="border border-gray-300 p-2">Image</th>
-            <th className="border border-gray-300 p-2">Description</th>
-            <th className="border border-gray-300 p-2">Lessons</th>
-            <th className="border border-gray-300 p-2">Difficulty</th>
-            <th className="border border-gray-300 p-2">Actions</th>
+          <tr className="border-b bg-gray-100">
+            <th className="p-4 text-left">Course Name</th>
+            <th className="p-4 text-left">Category</th>
+            <th className="p-4 text-left">Author</th>
+            <th className="p-4 text-left">Price</th>
+            <th className="p-4 text-left">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {courses.map(course => (
-            <tr key={course._id}>
-              <td className="border border-gray-300 p-2">{course.title}</td>
-              <td className="border border-gray-300 p-2">
-                <img src={course.image} alt={course.title} className="w-16 h-16 object-cover" />
-              </td>
-              <td className="border border-gray-300 p-2">{course.description}</td>
-              <td className="border border-gray-300 p-2">{course.lessons}</td>
-              <td className="border border-gray-300 p-2">{course.difficulty}</td>
-              <td className="border border-gray-300 p-2">
+          {courses.map((course) => (
+            <tr key={course._id} className="border-b">
+              <td className="p-4">{course.courseName}</td>
+              <td className="p-4">{course.courseCategory}</td>
+              <td className="p-4">{course.courseAuthor}</td>
+              <td className="p-4">${course.coursePrice.toFixed(2)}</td>
+              <td className="p-4">
                 <Link
                   to={`/admin/dashboard/courses/edit-course/${course._id}`}
-                  className="text-blue-500 hover:underline mr-2"
+                  className="text-blue-500 hover:underline mr-4"
                 >
                   Edit
                 </Link>

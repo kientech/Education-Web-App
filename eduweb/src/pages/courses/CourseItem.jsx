@@ -3,10 +3,10 @@ import { HiOutlineUserGroup } from "react-icons/hi2";
 import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 
-const CourseItem = ({ courseImage, courseTitle, slug }) => {
+const CourseItem = ({ courseImage, courseTitle, courseSlug }) => {
   return (
     <div className="w-full">
-      <Link to={`/courses/${slug}`}>
+      <Link to={`/courses/${courseSlug}`}>
         <div className="w-full p-2 shadow-sm rounded-lg">
           <img
             src={courseImage}

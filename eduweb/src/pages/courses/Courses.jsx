@@ -54,9 +54,9 @@ const Courses = () => {
           courses.map((item) => (
             <CourseItem
               key={item._id}
-              courseImage={item.image}
-              courseTitle={item.title}
-              slug={item.slug}
+              courseImage={item.courseImage}
+              courseTitle={item.courseName}
+              courseSlug={item.courseSlug}
             />
           ))}
       </div>

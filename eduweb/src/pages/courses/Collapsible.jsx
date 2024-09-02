@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const Collapsible = ({ title, children }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const Collapsible = ({ title, children, isOpen }) => {
+  const [open, setOpen] = useState(isOpen);
 
   const toggleCollapse = () => {
-    setIsOpen(!isOpen); 
+    setOpen(!open);
   };
+
+  useEffect(() => {
+    setOpen(isOpen);
+  }, [isOpen]);
 
   return (
     <div className="border border-gray-300 rounded-lg my-4 overflow-hidden">
@@ -16,7 +20,7 @@ const Collapsible = ({ title, children }) => {
         <span className="font-medium">{title}</span>
         <svg
           className={`w-5 h-5 transform transition-transform duration-300 ${
-            isOpen ? "rotate-180" : ""
+            open ? "rotate-180" : ""
           }`}
           fill="none"
           stroke="currentColor"
@@ -33,7 +37,7 @@ const Collapsible = ({ title, children }) => {
       </button>
       <div
         className={`transition-max-height duration-500 ease-in-out ${
-          isOpen ? "max-h-screen" : "max-h-0"
+          open ? "max-h-screen" : "max-h-0"
         }`}
       >
         <div className="p-4">{children}</div>

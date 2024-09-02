@@ -19,6 +19,8 @@ import AdminLayout from "./pages/admin/AdminLayout";
 import AdminManageCourses from "./pages/admin/AdminManageCourses";
 import AdminEditCourse from "./pages/admin/AdminEditCourse";
 import CourseDetail from "./pages/courses/CourseDetail";
+import LessonDetail from "./pages/courses/LessonDetail";
+import ProtectedRoute from "./pages/authentication/ProtectedRoute";
 
 function App() {
   const location = useLocation();
@@ -31,8 +33,16 @@ function App() {
       {!isAuthRoute && !isAdminRoute && <Header />}
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route
+          path="/courses/:courseSlug/lesson/:lessonSlug"
+          element={
+            <ProtectedRoute>
+              <LessonDetail />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/courses" element={<Courses />} />
-        <Route path="/courses/:slug" element={<CourseDetail />} />
+        <Route path="/courses/:courseSlug" element={<CourseDetail />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile/:userId" element={<EditProfile />} />
