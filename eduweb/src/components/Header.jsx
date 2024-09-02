@@ -64,7 +64,7 @@ function Header() {
               <img
                 src={userInfo.image || user.image}
                 alt="Avatar"
-                className="w-12 h-12 rounded-full"
+                className="w-12 h-12 rounded-full object-cover"
               />
               <span>
                 Hello, <span className="font-semibold text-green-400">{userInfo.fullname || user.fullname}</span>

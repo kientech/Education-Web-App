@@ -31,6 +31,22 @@ exports.getCourseById = async (req, res) => {
   }
 };
 
+exports.getCourseBySlug = async (req, res) => {
+  try {
+    const course = await Course.findOne({ slug: req.params.slug });
+    if (course) {
+      return res.status(200).json({
+        status: "success",
+        data: course,
+      });
+    } else {
+      return res.status(404).json({ message: "Course not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // Get all courses by difficulty level
 exports.getCoursesFilter = async (req, res) => {
   try {

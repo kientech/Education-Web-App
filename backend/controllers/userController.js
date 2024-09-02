@@ -70,7 +70,6 @@ exports.updateUser = async (req, res) => {
       return res.status(404).json({ msg: "User not found" });
     }
 
-    // Update user fields
     user.fullname = fullname || user.fullname;
     user.username = username || user.username;
     user.email = email || user.email;

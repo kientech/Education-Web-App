@@ -33,7 +33,7 @@ const AdminManageCourses = () => {
   return (
     <div className="w-full p-5">
       <h1 className="text-2xl font-bold mb-4">Manage Courses</h1>
-      <Link to="/admin/create-course" className="mb-4 inline-block bg-blue-500 text-white py-2 px-4 rounded">
+      <Link to="/admin/dashboard/courses/create-course" className="mb-4 inline-block bg-blue-500 text-white py-2 px-4 rounded">
         Create New Course
       </Link>
       <table className="w-full border-collapse border border-gray-200">
@@ -59,7 +59,7 @@ const AdminManageCourses = () => {
               <td className="border border-gray-300 p-2">{course.difficulty}</td>
               <td className="border border-gray-300 p-2">
                 <Link
-                  to={`/admin/edit-course/${course._id}`}
+                  to={`/admin/dashboard/courses/edit-course/${course._id}`}
                   className="text-blue-500 hover:underline mr-2"
                 >
                   Edit

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import CourseItem from "./CourseItem";
+import Loading from "../../components/Loading";
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
@@ -23,6 +24,12 @@ const Courses = () => {
 
     fetchCourses();
   }, []);
+  if (loading)
+    return (
+      <>
+        <Loading />
+      </>
+    );
   return (
     <div className="w-[90%] mx-auto">
       <div className="">
@@ -49,6 +56,7 @@ const Courses = () => {
               key={item._id}
               courseImage={item.image}
               courseTitle={item.title}
+              slug={item.slug}
             />
           ))}
       </div>

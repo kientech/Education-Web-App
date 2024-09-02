@@ -17,6 +17,8 @@ import EditProfile from "./pages/profile/EditProfile";
 import AdminCreateNewCourse from "./pages/admin/AdminCreateNewCourse";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminManageCourses from "./pages/admin/AdminManageCourses";
+import AdminEditCourse from "./pages/admin/AdminEditCourse";
+import CourseDetail from "./pages/courses/CourseDetail";
 
 function App() {
   const location = useLocation();
@@ -30,6 +32,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/courses" element={<Courses />} />
+        <Route path="/courses/:slug" element={<CourseDetail />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile/:userId" element={<EditProfile />} />
@@ -43,6 +46,10 @@ function App() {
           <Route
             path="dashboard/courses/manage-courses"
             element={<AdminManageCourses />}
+          />
+          <Route
+            path="dashboard/courses/edit-course/:id"
+            element={<AdminEditCourse />}
           />
         </Route>
       </Routes>
