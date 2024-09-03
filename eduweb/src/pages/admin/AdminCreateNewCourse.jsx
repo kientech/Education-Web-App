@@ -128,177 +128,200 @@ const AdminCreateNewCourse = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
+    <div className="w-full mx-auto px-4">
       <h2 className="text-2xl font-bold mb-6">Create a New Course</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="flex flex-col">
-          <label htmlFor="courseName" className="mb-2 text-lg font-medium">
-            Course Name
-          </label>
-          <input
-            type="text"
-            id="courseName"
-            name="courseName"
-            value={formData.courseName}
-            onChange={handleChange}
-            className="p-2 border border-gray-300 rounded-md"
-            required
-          />
+        <div className="flex items-center justify-between gap-x-5">
+          <div className="flex flex-col w-full">
+            <label htmlFor="courseName" className="mb-2 text-md font-medium">
+              Course Name
+            </label>
+            <input
+              type="text"
+              id="courseName"
+              name="courseName"
+              placeholder="Enter the Course Name"
+              value={formData.courseName}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded-md outline-none focus:border-green-400"
+              required
+            />
+          </div>
+
+          <div className="flex flex-col w-full">
+            <label
+              htmlFor="courseVideoIntro"
+              className="mb-2 text-md font-medium"
+            >
+              Course Video Intro URL
+            </label>
+            <input
+              type="text"
+              id="courseVideoIntro"
+              name="courseVideoIntro"
+              placeholder="Enter the Video Intro URL"
+              value={formData.courseVideoIntro}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded-md outline-none focus:border-green-400"
+              required
+            />
+          </div>
         </div>
 
-        <div className="flex flex-col">
-          <label
-            htmlFor="courseVideoIntro"
-            className="mb-2 text-lg font-medium"
-          >
-            Course Video Intro URL
-          </label>
-          <input
-            type="text"
-            id="courseVideoIntro"
-            name="courseVideoIntro"
-            value={formData.courseVideoIntro}
-            onChange={handleChange}
-            className="p-2 border border-gray-300 rounded-md"
-            required
-          />
+        <div className="flex items-center justify-between gap-x-5">
+          <div className="flex flex-col w-full">
+            <label
+              htmlFor="courseCategory"
+              className="mb-2 text-md font-medium"
+            >
+              Course Category
+            </label>
+            <input
+              type="text"
+              id="courseCategory"
+              placeholder="Enter the Course Category"
+              name="courseCategory"
+              value={formData.courseCategory}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded-md outline-none focus:border-green-400"
+            />
+          </div>
+
+          <div className="flex flex-col w-full">
+            <label htmlFor="courseAuthor" className="mb-2 text-md font-medium">
+              Course Author
+            </label>
+            <input
+              type="text"
+              id="courseAuthor"
+              name="courseAuthor"
+              placeholder="Enter the Author Course"
+              value={formData.courseAuthor}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded-md outline-none focus:border-green-400"
+            />
+          </div>
         </div>
 
-        <div className="flex flex-col">
-          <label htmlFor="courseCategory" className="mb-2 text-lg font-medium">
-            Course Category
-          </label>
-          <input
-            type="text"
-            id="courseCategory"
-            name="courseCategory"
-            value={formData.courseCategory}
-            onChange={handleChange}
-            className="p-2 border border-gray-300 rounded-md"
-          />
-        </div>
+        <div className="flex item-center justify-between gap-x-5">
+          <div className="flex flex-col w-full">
+            <label htmlFor="coursePrice" className="mb-2 text-md font-medium">
+              Course Price
+            </label>
+            <input
+              type="number"
+              id="coursePrice"
+              name="coursePrice"
+              value={formData.coursePrice}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded-md outline-none focus:border-green-400"
+            />
+          </div>
 
-        <div className="flex flex-col">
-          <label htmlFor="courseAuthor" className="mb-2 text-lg font-medium">
-            Course Author
-          </label>
-          <input
-            type="text"
-            id="courseAuthor"
-            name="courseAuthor"
-            value={formData.courseAuthor}
-            onChange={handleChange}
-            className="p-2 border border-gray-300 rounded-md"
-          />
-        </div>
+          <div className="flex flex-col w-full">
+            <label
+              htmlFor="courseTotalEnrolled"
+              className="mb-2 text-md font-medium"
+            >
+              Total Enrolled
+            </label>
+            <input
+              type="number"
+              id="courseTotalEnrolled"
+              name="courseTotalEnrolled"
+              value={formData.courseTotalEnrolled}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded-md outline-none focus:border-green-400"
+            />
+          </div>
 
-        <div className="flex flex-col">
-          <label htmlFor="coursePrice" className="mb-2 text-lg font-medium">
-            Course Price
-          </label>
-          <input
-            type="number"
-            id="coursePrice"
-            name="coursePrice"
-            value={formData.coursePrice}
-            onChange={handleChange}
-            className="p-2 border border-gray-300 rounded-md"
-          />
-        </div>
+          <div className="flex flex-col w-full">
+            <label
+              htmlFor="courseDifficulty"
+              className="mb-2 text-md font-medium"
+            >
+              Course Difficulty
+            </label>
+            <input
+              type="number"
+              id="courseDifficulty"
+              name="courseDifficulty"
+              value={formData.courseDifficulty}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded-md outline-none focus:border-green-400"
+              required
+            />
+          </div>
 
-        <div className="flex flex-col">
-          <label
-            htmlFor="courseTotalEnrolled"
-            className="mb-2 text-lg font-medium"
-          >
-            Total Enrolled
-          </label>
-          <input
-            type="number"
-            id="courseTotalEnrolled"
-            name="courseTotalEnrolled"
-            value={formData.courseTotalEnrolled}
-            onChange={handleChange}
-            className="p-2 border border-gray-300 rounded-md"
-          />
-        </div>
-
-        <div className="flex flex-col">
-          <label
-            htmlFor="courseDifficulty"
-            className="mb-2 text-lg font-medium"
-          >
-            Course Difficulty
-          </label>
-          <input
-            type="number"
-            id="courseDifficulty"
-            name="courseDifficulty"
-            value={formData.courseDifficulty}
-            onChange={handleChange}
-            className="p-2 border border-gray-300 rounded-md"
-            required
-          />
-        </div>
-
-        <div className="flex flex-col">
-          <label htmlFor="courseDuration" className="mb-2 text-lg font-medium">
-            Course Duration (minutes)
-          </label>
-          <input
-            type="number"
-            id="courseDuration"
-            name="courseDuration"
-            value={formData.courseDuration}
-            onChange={handleChange}
-            className="p-2 border border-gray-300 rounded-md"
-          />
+          <div className="flex flex-col w-full">
+            <label
+              htmlFor="courseDuration"
+              className="mb-2 text-md font-medium"
+            >
+              Duration (minutes)
+            </label>
+            <input
+              type="number"
+              id="courseDuration"
+              name="courseDuration"
+              value={formData.courseDuration}
+              onChange={handleChange}
+              className="p-2 border border-gray-300 rounded-md outline-none focus:border-green-400"
+            />
+          </div>
         </div>
 
         <div className="flex flex-col">
           <label
             htmlFor="courseDescription"
-            className="mb-2 text-lg font-medium"
+            className="mb-2 text-md font-medium"
           >
             Course Description
           </label>
           <textarea
             id="courseDescription"
             name="courseDescription"
+            placeholder="Write a description"
             value={formData.courseDescription}
             onChange={handleChange}
-            className="p-2 border border-gray-300 rounded-md"
+            className="p-2 border border-gray-300 rounded-md outline-none focus:border-green-400"
           />
         </div>
 
         {/* Chapters and Lessons */}
-        <div className="flex flex-col">
-          <label className="mb-2 text-lg font-medium">Course Chapters</label>
+        <div className="mb-4">
+          <h3 className="text-xl font-semibold mb-2">Course Chapters</h3>
           {formData.courseChapters.map((chapter, chapterIndex) => (
-            <div key={chapterIndex} className="mb-6">
-              <div className="flex flex-col mb-4">
+            <div
+              key={chapterIndex}
+              className="mb-6 border p-4 rounded shadow-sm"
+            >
+              <div className="flex justify-between items-center mb-2">
                 <input
                   type="text"
                   name="chapterName"
                   value={chapter.chapterName}
                   onChange={(e) => handleChapterChange(chapterIndex, e)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded"
                   placeholder={`Chapter ${chapterIndex + 1} Name`}
-                  className="p-2 border border-gray-300 rounded-md mb-2"
                 />
                 <button
                   type="button"
                   onClick={() => removeChapter(chapterIndex)}
-                  className="bg-red-500 text-white px-4 py-2 rounded-md"
+                  className="text-red-500 hover:underline"
                 >
                   Remove Chapter
                 </button>
               </div>
-              <div className="flex flex-col">
-                <label className="mb-2 text-lg font-medium">
+              <div>
+                <h4 className="text-lg font-semibold mb-2">
                   Lessons in Chapter {chapterIndex + 1}
-                </label>
+                </h4>
                 {chapter.chapterLessons.map((lesson, lessonIndex) => (
-                  <div key={lessonIndex} className="flex flex-col mb-4">
+                  <div
+                    key={lessonIndex}
+                    className="mb-4 p-4 border border-gray-200 rounded"
+                  >
                     <input
                       type="text"
                       name="name"
@@ -306,8 +329,8 @@ const AdminCreateNewCourse = () => {
                       onChange={(e) =>
                         handleLessonChange(chapterIndex, lessonIndex, e)
                       }
+                      className="w-full px-3 py-2 border border-gray-300 rounded mb-2"
                       placeholder={`Lesson ${lessonIndex + 1} Name`}
-                      className="p-2 border border-gray-300 rounded-md mb-2"
                     />
                     <input
                       type="text"
@@ -316,8 +339,8 @@ const AdminCreateNewCourse = () => {
                       onChange={(e) =>
                         handleLessonChange(chapterIndex, lessonIndex, e)
                       }
+                      className="w-full px-3 py-2 border border-gray-300 rounded mb-2"
                       placeholder={`Lesson ${lessonIndex + 1} Video URL`}
-                      className="p-2 border border-gray-300 rounded-md mb-2"
                     />
                     <input
                       type="number"
@@ -326,15 +349,16 @@ const AdminCreateNewCourse = () => {
                       onChange={(e) =>
                         handleLessonChange(chapterIndex, lessonIndex, e)
                       }
+                      className="w-full px-3 py-2 border border-gray-300 rounded"
                       placeholder={`Lesson ${
                         lessonIndex + 1
                       } Duration (minutes)`}
-                      className="p-2 border border-gray-300 rounded-md mb-2"
+                      min="0"
                     />
                     <button
                       type="button"
                       onClick={() => removeLesson(chapterIndex, lessonIndex)}
-                      className="bg-red-500 text-white px-4 py-2 rounded-md"
+                      className="text-red-500 hover:underline"
                     >
                       Remove Lesson
                     </button>
@@ -343,7 +367,7 @@ const AdminCreateNewCourse = () => {
                 <button
                   type="button"
                   onClick={() => addLesson(chapterIndex)}
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md"
+                  className="bg-blue-500 text-white px-4 py-2 rounded"
                 >
                   Add Lesson
                 </button>
@@ -353,7 +377,7 @@ const AdminCreateNewCourse = () => {
           <button
             type="button"
             onClick={addChapter}
-            className="bg-blue-500 text-white px-4 py-2 rounded-md"
+            className="bg-blue-500 text-white px-4 py-2 rounded"
           >
             Add Chapter
           </button>

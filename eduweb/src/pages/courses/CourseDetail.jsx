@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { HiOutlineBarsArrowUp } from "react-icons/hi2";
 import { HiOutlineUserGroup } from "react-icons/hi2";
@@ -10,6 +10,7 @@ import Loading from "../../components/Loading";
 import Modal from "../../components/Modal";
 import CourseTopics from "./CourseTopics";
 import CourseTabs from "./CourseTabs";
+import { toast } from "react-toastify";
 
 const CourseDetail = () => {
   const { courseSlug } = useParams();
@@ -17,6 +18,30 @@ const CourseDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
+  const getFirstLessonSlug = () => {
+    if (course && course.courseChapters && course.courseChapters.length > 0) {
+      const firstChapter = course.courseChapters[0];
+      if (
+        firstChapter.chapterLessons &&
+        firstChapter.chapterLessons.length > 0
+      ) {
+        return firstChapter.chapterLessons[0].slug;
+      }
+    }
+    return null; // Fallback if no lessons are found
+  };
+
+  const handleGoToCourse = () => {
+    const firstLessonSlug = getFirstLessonSlug();
+    if (firstLessonSlug) {
+      navigate(`/courses/${course.courseSlug}/lesson/${firstLessonSlug}`);
+    } else {
+      console.error("First lesson slug not found");
+    }
+  };
 
   useEffect(() => {
     const fetchCourse = async () => {
@@ -114,8 +139,27 @@ const CourseDetail = () => {
                 </h2>
               </div>
               <div>
-                <button className="text-white font-semibold w-full my-4 font-base py-4 px-8 rounded-lg bg-green-400">
-                  Add To Cart
+                {/* {!isInCart || !token ? (
+                  <button
+                    className="text-white font-semibold w-full my-4 font-base py-4 px-8 rounded-lg bg-green-400"
+                    onClick={handleAddToCart}
+                  >
+                    Add To Cart
+                  </button>
+                ) : (
+                  <button
+                    className="text-white font-semibold w-full my-4 font-base py-4 px-8 rounded-lg bg-green-400"
+                    // onClick={}
+                  >
+                    Go to course
+                  </button>
+                )} */}
+
+                <button
+                  className="text-white font-semibold w-full my-4 font-base py-4 px-8 rounded-lg bg-green-400"
+                  onClick={handleGoToCourse}
+                >
+                  Go to course
                 </button>
               </div>
               <div className="w-full h-[1px] rounded-lg bg-gray-200 my-4"></div>
