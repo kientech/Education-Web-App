@@ -4,6 +4,7 @@ import Loading from "../../components/Loading";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { api } from "../../utils/apis";
+import slugify from "slugify";
 
 const AdminEditCourse = () => {
   const { id } = useParams(); // Get the course ID from URL params
@@ -24,7 +25,6 @@ const AdminEditCourse = () => {
   });
   const [loading, setLoading] = useState(true);
 
-  console.log("🚀 ~ AdminEditCourse ~ course:", course);
   useEffect(() => {
     const fetchCourse = async () => {
       try {
@@ -56,6 +56,15 @@ const AdminEditCourse = () => {
     const { name, value } = e.target;
     const updatedChapters = [...course.courseChapters];
     updatedChapters[chapterIndex].chapterLessons[lessonIndex][name] = value;
+
+    // Update slug when name changes
+    if (name === "name") {
+      updatedChapters[chapterIndex].chapterLessons[lessonIndex].slug = slugify(
+        value,
+        { lower: true, strict: true }
+      );
+    }
+
     setCourse({ ...course, courseChapters: updatedChapters });
   };
 
@@ -80,6 +89,7 @@ const AdminEditCourse = () => {
       name: "",
       video: "",
       duration: 0,
+      slug: "", // Add slug here
     });
     setCourse({ ...course, courseChapters: updatedChapters });
   };
@@ -114,6 +124,7 @@ const AdminEditCourse = () => {
     <div className="container mx-auto p-6">
       <h2 className="text-2xl font-bold mb-6">Edit Course</h2>
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md">
+        {/* Course fields here */}
         <div className="mb-4">
           <label className="block text-gray-700 mb-2" htmlFor="courseName">
             Course Name
@@ -263,7 +274,6 @@ const AdminEditCourse = () => {
           />
         </div>
 
-        {/* Add Chapter and Lesson management here */}
         {/* Chapter Management */}
         <div className="mb-4">
           <h3 className="text-xl font-semibold mb-2">Chapters</h3>
@@ -326,6 +336,16 @@ const AdminEditCourse = () => {
                       className="w-full px-3 py-2 border border-gray-300 rounded"
                       placeholder="Lesson Duration (minutes)"
                       min="0"
+                    />
+                    <input
+                      type="text"
+                      name="slug"
+                      value={lesson.slug}
+                      onChange={(e) =>
+                        handleLessonChange(chapterIndex, lessonIndex, e)
+                      }
+                      className="w-full px-3 py-2 border border-gray-300 rounded mb-2"
+                      placeholder="Lesson Slug"
                     />
                     <button
                       type="button"
