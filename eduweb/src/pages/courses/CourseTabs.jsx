@@ -42,7 +42,7 @@ const CourseTabs = () => {
   ];
 
   return (
-    <div className="w-full   mt-8 mb-32">
+    <div className="w-full  mt-8 mb-32">
       <Tabs tabs={tabs} />
     </div>
   );

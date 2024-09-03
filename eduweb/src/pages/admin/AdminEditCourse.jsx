@@ -3,6 +3,7 @@ import axios from "axios";
 import Loading from "../../components/Loading";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { api } from "../../utils/apis";
 
 const AdminEditCourse = () => {
   const { id } = useParams(); // Get the course ID from URL params
@@ -27,9 +28,7 @@ const AdminEditCourse = () => {
   useEffect(() => {
     const fetchCourse = async () => {
       try {
-        const response = await axios.get(
-          `http://127.0.0.1:5000/api/courses/admin/${id}`
-        );
+        const response = await axios.get(`${api}/api/courses/admin/${id}`);
         setCourse(response.data.data);
       } catch (error) {
         toast.error("Error fetching course data!");
@@ -96,7 +95,7 @@ const AdminEditCourse = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.patch(`http://127.0.0.1:5000/api/courses/${id}`, course);
+      await axios.patch(`${api}/api/courses/${id}`, course);
       toast.success("Course Updated Successfully!");
       navigate("/admin/dashboard/courses/manage-courses");
     } catch (error) {
@@ -133,7 +132,7 @@ const AdminEditCourse = () => {
           <label className="block text-gray-700 mb-2" htmlFor="courseName">
             Course Image
           </label>
-          <input  
+          <input
             type="text"
             id="courseImage"
             name="courseImage"

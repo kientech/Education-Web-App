@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import useAuthStore from "../../store/useAuthStore";
 import { toast } from "react-toastify";
+import { api } from "../../utils/apis";
 
 const EditProfile = () => {
   const { userInfo, token, setUserInfo } = useAuthStore();
@@ -44,7 +45,7 @@ const EditProfile = () => {
 
     try {
       const response = await axios.patch(
-        `http://localhost:5000/api/auth/profile/${userId}`,
+        `${api}/api/auth/profile/${userId}`,
         formData,
         {
           headers: {
@@ -54,7 +55,7 @@ const EditProfile = () => {
         }
       );
 
-        // Update user info in the store and localStorage
+      // Update user info in the store and localStorage
       setUserInfo(
         response.data.token,
         response.data.user.role,

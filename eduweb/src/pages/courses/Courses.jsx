@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import CourseItem from "./CourseItem";
 import Loading from "../../components/Loading";
+import { api } from "../../utils/apis";
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
@@ -13,7 +14,7 @@ const Courses = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:5000/api/courses");
+        const response = await axios.get(`${api}/api/courses`);
         setCourses(response.data.data);
       } catch (err) {
         setError("Failed to fetch courses.");

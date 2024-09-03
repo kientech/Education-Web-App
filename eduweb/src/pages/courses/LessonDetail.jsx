@@ -4,6 +4,7 @@ import ReactPlayer from "react-player";
 import Loading from "../../components/Loading";
 import { useParams } from "react-router-dom";
 import CourseSidebarLesson from "./CourseSidebarLesson";
+import { api } from "../../utils/apis";
 
 const LessonDetail = () => {
   const { courseSlug, lessonSlug } = useParams();
@@ -15,7 +16,7 @@ const LessonDetail = () => {
     const fetchLesson = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:5000/api/courses/${courseSlug}/lesson/${lessonSlug}`
+          `${api}/api/courses/${courseSlug}/lesson/${lessonSlug}`
         );
         setLesson(response.data.data);
       } catch (error) {

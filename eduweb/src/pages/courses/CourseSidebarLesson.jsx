@@ -3,6 +3,7 @@ import axios from "axios";
 import Collapsible from "./Collapsible";
 import { Link, useParams } from "react-router-dom";
 import Loading from "../../components/Loading";
+import { api } from "../../utils/apis";
 
 const CourseSidebarLesson = () => {
   const { courseSlug } = useParams();
@@ -15,7 +16,7 @@ const CourseSidebarLesson = () => {
     const fetchChapters = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:5000/api/courses/${courseSlug}`
+          `${api}/api/courses/${courseSlug}`
         );
         setChapters(response.data.data.courseChapters);
       } catch (error) {

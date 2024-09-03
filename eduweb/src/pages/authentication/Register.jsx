@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { api } from "../../utils/apis";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ export default function Register() {
     }),
     onSubmit: async (values) => {
       try {
-        await axios.post("http://localhost:5000/api/auth/register", values);
+        await axios.post(`${api}/api/auth/register`, values);
         toast.success("Registration Successful!");
         navigate("/login"); 
       } catch (err) {

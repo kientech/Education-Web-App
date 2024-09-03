@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import useAuthStore from "../../store/useAuthStore";
 import { toast } from "react-toastify";
+import { api } from "../../utils/apis";
 
 export default function Login() {
   const [error, setError] = useState("");
@@ -46,7 +47,7 @@ export default function Login() {
     onSubmit: async (values, { setSubmitting }) => {
       const { email, password } = values;
       try {
-        const res = await axios.post("http://localhost:5000/api/auth/login", {
+        const res = await axios.post(`${api}/api/auth/login`, {
           email,
           password,
         });

@@ -1,8 +1,7 @@
-// components/CourseForm.jsx
-
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { api } from "../../utils/apis";
 
 const AdminCreateNewCourse = () => {
   const [formData, setFormData] = useState({
@@ -103,7 +102,7 @@ const AdminCreateNewCourse = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://127.0.0.1:5000/api/courses/", formData);
+      await axios.post(`${api}/api/courses/`, formData);
       toast.success("Course created successfully!");
       setFormData({
         courseName: "",

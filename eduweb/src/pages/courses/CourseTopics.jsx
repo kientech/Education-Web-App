@@ -3,6 +3,7 @@
   import Collapsible from "./Collapsible";
   import { Link, useParams } from "react-router-dom";
   import Loading from "../../components/Loading";
+  import { api } from "../../utils/apis";
 
   const CourseTopics = () => {
     const { courseSlug } = useParams();
@@ -15,7 +16,7 @@
       const fetchChapters = async () => {
         try {
           const response = await axios.get(
-            `http://127.0.0.1:5000/api/courses/${courseSlug}`
+            `${api}/api/courses/${courseSlug}`
           ); // Update the URL as needed
           setChapters(response.data.data.courseChapters);
         } catch (error) {

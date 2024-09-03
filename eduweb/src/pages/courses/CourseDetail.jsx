@@ -11,6 +11,7 @@ import Modal from "../../components/Modal";
 import CourseTopics from "./CourseTopics";
 import CourseTabs from "./CourseTabs";
 import { toast } from "react-toastify";
+import { api } from "../../utils/apis";
 
 const CourseDetail = () => {
   const { courseSlug } = useParams();
@@ -47,7 +48,7 @@ const CourseDetail = () => {
     const fetchCourse = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:5000/api/courses/${courseSlug}`
+          `${api}/api/courses/${courseSlug}`
         );
         setCourse(response.data.data);
       } catch (err) {
@@ -61,7 +62,7 @@ const CourseDetail = () => {
   }, [courseSlug]);
 
   const shareOnSocialMedia = (platform) => {
-    const url = `http://127.0.0.1:5000/courses/${courseSlug}`;
+    const url = `${api}/courses/${courseSlug}`;
     const title = course ? course.title : "Check out this course!";
     const text = `I found this course interesting: ${title}`;
 
@@ -114,7 +115,7 @@ const CourseDetail = () => {
               <Modal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                courseLink={`http://127.0.0.1:5000/courses/${courseSlug}`}
+                courseLink={`${api}/courses/${courseSlug}`}
                 shareOnSocialMedia={shareOnSocialMedia}
               />
             </div>

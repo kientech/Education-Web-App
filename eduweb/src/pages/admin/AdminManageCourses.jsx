@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Loading from "../../components/Loading";
+import { api } from "../../utils/apis";
 
 const AdminManageCourses = () => {
   const [courses, setCourses] = useState([]);
@@ -10,7 +11,7 @@ const AdminManageCourses = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await axios.get("http://127.0.0.1:5000/api/courses");
+        const response = await axios.get(`${api}/api/courses`);
         setCourses(response.data.data);
       } catch (error) {
         toast.error("Error fetching courses!");
@@ -24,7 +25,7 @@ const AdminManageCourses = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://127.0.0.1:5000/api/courses/admin/${id}`);
+      await axios.delete(`${api}/api/courses/admin/${id}`);
       setCourses(courses.filter((course) => course._id !== id));
       toast.success("Course deleted successfully!");
     } catch (error) {
